@@ -95,7 +95,7 @@ createModel($content, 'Home', 'singleton', 'Home Page', [
     ]),
     // Partners
     set_('partners', 'Partners', [
-        img('image', 'Logo'),
+        txt('image', 'Logo'),
     ]),
     // About
     txt('aboutEyebrow',     'About / Eyebrow'),
@@ -103,14 +103,14 @@ createModel($content, 'Home', 'singleton', 'Home Page', [
     area('aboutDescription','About / Description'),
     img('aboutImage',       'About / Image'),
     set_('aboutHighlights', 'About / Highlights', [
-        txt('label',  'Label'),
-        img('image',  'Icon'),
+        txt('label', 'Label'),
+        txt('image', 'Icon'),
     ]),
     // Mission & Vision
     set_('missionVision', 'Mission & Vision', [
         txt('title',        'Title'),
-        area('description', 'Description'),
-        img('image',        'Image'),
+        txt('description',  'Description'),
+        txt('image',        'Image'),
     ]),
     // Solutions
     txt('solutionsHeading', 'Solutions / Heading'),
@@ -118,17 +118,17 @@ createModel($content, 'Home', 'singleton', 'Home Page', [
     txt('testimonialsHeading',      'Testimonials / Heading'),
     area('testimonialsDescription', 'Testimonials / Description'),
     set_('testimonials', 'Testimonials', [
-        area('quote', 'Quote'),
+        txt('quote',  'Quote'),
         txt('name',   'Name'),
         txt('role',   'Role'),
-        img('avatar', 'Avatar'),
+        txt('avatar', 'Avatar'),
         num('rating', 'Rating'),
     ]),
     // FAQs
     txt('faqsHeading', 'FAQs / Heading'),
     set_('faqs', 'FAQs', [
-        txt('question',  'Question'),
-        area('answer',   'Answer'),
+        txt('question', 'Question'),
+        txt('answer',   'Answer'),
     ]),
 ]);
 
@@ -141,8 +141,8 @@ createModel($content, 'About', 'singleton', 'About Page', [
     txt('valuesHeading',  'Values / Heading'),
     img('valuesImage',    'Values / Image'),
     set_('values', 'Company Values', [
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
     // Partners
     txt('partnersHeading', 'Partners / Heading'),
@@ -153,10 +153,10 @@ createModel($content, 'About', 'singleton', 'About Page', [
     txt('teamHeading',      'Team / Heading'),
     area('teamDescription', 'Team / Description'),
     set_('team', 'Team Members', [
-        txt('name',         'Name'),
-        txt('role',         'Role'),
-        img('image',        'Photo'),
-        area('bio',         'Bio'),
+        txt('name',  'Name'),
+        txt('role',  'Role'),
+        txt('image', 'Photo'),
+        txt('bio',   'Bio'),
     ]),
     // CTA
     txt('ctaTitle',       'CTA / Title'),
@@ -200,18 +200,18 @@ createModel($content, 'Career', 'singleton', 'Career Page', [
     txt('hiringTitle',       'Hiring Process / Title'),
     area('hiringDescription','Hiring Process / Description'),
     set_('hiringSteps', 'Hiring Steps', [
-        txt('title',        'Title'),
-        area('description', 'Description'),
-        img('image',        'Icon'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
+        txt('image',       'Icon'),
     ]),
     // Life at TechAvenue
     txt('lifeEyebrow',      'Life / Eyebrow'),
     txt('lifeTitle',        'Life / Title'),
     area('lifeDescription', 'Life / Description'),
     set_('lifeHighlights', 'Life Highlights', [
-        txt('title',        'Title'),
-        area('description', 'Description'),
-        img('media',        'Image'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
+        txt('media',       'Image'),
     ]),
     // Follow Us
     txt('followUsTitle',       'Follow Us / Title'),
@@ -219,7 +219,7 @@ createModel($content, 'Career', 'singleton', 'Career Page', [
     set_('socialLinks', 'Social Links', [
         txt('label', 'Label'),
         txt('href',  'URL'),
-        img('image', 'Icon'),
+        txt('image', 'Icon'),
     ]),
 ]);
 
@@ -231,19 +231,19 @@ createModel($content, 'Services', 'singleton', 'Services Page', [
     txt('servicesHeading',       'Core Services / Heading'),
     area('servicesDescription',  'Core Services / Description'),
     set_('coreServices', 'Core Services', [
-        img('icon',         'Icon'),
-        txt('title',        'Title'),
-        area('description', 'Description'),
-        txt('articleUuid',  'Article UUID'),
+        txt('icon',        'Icon'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
+        txt('articleUuid', 'Article UUID'),
     ]),
     // Articles
     set_('articles', 'Articles', [
-        txt('eyebrow',      'Eyebrow'),
-        txt('title',        'Title'),
-        area('description', 'Description'),
-        img('image',        'Image'),
-        img('iconImage',    'Icon Image'),
-        area('features',    'Features (one per line)'),
+        txt('eyebrow',     'Eyebrow'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
+        txt('image',       'Image'),
+        txt('iconImage',   'Icon Image'),
+        txt('features',    'Features (one per line)'),
     ]),
 ]);
 
@@ -275,24 +275,24 @@ createModel($content, 'Industries', 'collection', 'Industries', [
     area('overviewDescription','Overview / Description'),
     img('overviewImage',       'Overview / Image'),
     set_('overviewHighlights', 'Overview Highlights', [
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
     // Challenges
     txt('challengesTitle',       'Challenges / Title'),
     area('challengesDescription','Challenges / Description'),
     set_('challenges', 'Challenges', [
-        img('icon',         'Icon'),
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('icon',        'Icon'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
     // Solutions
     txt('solutionsTitle',       'Solutions / Title'),
     area('solutionsDescription','Solutions / Description'),
     set_('solutions', 'Solutions', [
-        img('icon',         'Icon'),
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('icon',        'Icon'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
 ]);
 
@@ -311,7 +311,7 @@ createModel($content, 'LegacySolutions', 'collection', 'Legacy Solutions', [
     area('description', 'Description'),
     set_('highlights', 'Highlights', [
         txt('label',     'Label'),
-        img('checkIcon', 'Check Icon'),
+        txt('checkIcon', 'Check Icon'),
     ]),
     // Header
     txt('headerTitle',       'Header / Title'),
@@ -335,8 +335,8 @@ createModel($content, 'LegacySolutions', 'collection', 'Legacy Solutions', [
     area('experienceDescription','Experience / Description'),
     img('experienceImage',       'Experience / Image'),
     set_('experienceItems', 'Experience Items', [
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
     // Testimonial
     area('testimonialQuote',  'Testimonial / Quote'),
@@ -356,14 +356,14 @@ createModel($content, 'SolutionPages', 'collection', 'Solution Pages', [
     txt('solutionsHeading',      'Solutions / Heading'),
     area('solutionsDescription', 'Solutions / Description'),
     set_('solutionItems', 'Solution Items', [
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
     // Phases
     set_('phases', 'Phases', [
-        txt('title',        'Title'),
-        txt('focus',        'Focus'),
-        area('description', 'Description'),
+        txt('title',       'Title'),
+        txt('focus',       'Focus'),
+        txt('description', 'Description'),
     ]),
 ]);
 
@@ -395,25 +395,25 @@ createModel($content, 'SuccessStories', 'collection', 'Success Stories', [
     txt('challengesTitle',       'Challenges / Title'),
     area('challengesDescription','Challenges / Description'),
     set_('challenges', 'Challenges', [
-        img('icon',         'Icon'),
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('icon',        'Icon'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
     // Solutions
     txt('solutionsTitle',       'Solutions / Title'),
     area('solutionsDescription','Solutions / Description'),
     set_('solutionItems', 'Solution Items', [
-        img('icon',         'Icon'),
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('icon',        'Icon'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
     // Impact
     txt('impactTitle',       'Impact / Title'),
     area('impactDescription','Impact / Description'),
     set_('impactItems', 'Impact Items', [
-        txt('value',        'Value'),
-        txt('title',        'Title'),
-        area('description', 'Description'),
+        txt('value',       'Value'),
+        txt('title',       'Title'),
+        txt('description', 'Description'),
     ]),
 ]);
 
