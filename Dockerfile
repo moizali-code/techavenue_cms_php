@@ -13,7 +13,7 @@ RUN apt-get update \
     && pecl install mongodb redis \
     && docker-php-ext-configure gd --with-freetype --with-webp --with-jpeg  \
     && docker-php-ext-install -j$(nproc) iconv gd pdo zip opcache pdo_sqlite \
-    && a2enmod rewrite expires
+    && a2enmod rewrite expires headers
 
 RUN echo "extension=mongodb.so" > /usr/local/etc/php/conf.d/mongodb.ini
 RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini
@@ -22,6 +22,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /var/www/html
 COPY . .
+COPY cors.conf /etc/apache2/conf-enabled/cors.conf
 RUN composer install --no-dev --optimize-autoloader --no-interaction 2>/dev/null || true
 
 # Give www-data UID=1000 and GID=1000 to be compatible with the docker host user on linux (often 1000:1000)
