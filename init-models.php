@@ -25,8 +25,10 @@ function img(string $name, string $label): array   { return f($name, 'asset',   
 function bool_(string $name, string $label): array { return f($name, 'boolean',  $label); }
 function date_(string $name, string $label): array { return f($name, 'date',     $label); }
 function num(string $name, string $label): array   { return f($name, 'number',   $label); }
-function set_(string $name, string $label, array $fields): array {
-    return f($name, 'set', $label, ['fields' => $fields]);
+function set_(string $name, string $label, array $fields, string $display = ''): array {
+    $opts = ['fields' => $fields];
+    if ($display) $opts['display'] = $display;
+    return ['name' => $name, 'type' => 'set', 'label' => $label, 'multiple' => true, 'opts' => $opts];
 }
 
 // Write the model PHP file directly to avoid Cockpit's pathCache bug
@@ -92,11 +94,11 @@ createModel($content, 'Home', 'singleton', 'Home Page', [
     set_('stats', 'Stats', [
         txt('value', 'Value'),
         txt('label', 'Label'),
-    ]),
+    ], '${data.value} — ${data.label}'),
     // Partners
     set_('partners', 'Partners', [
         txt('image', 'Logo'),
-    ]),
+    ], '${data.image}'),
     // About
     txt('aboutEyebrow',     'About / Eyebrow'),
     txt('aboutTitle',       'About / Title'),
@@ -105,13 +107,13 @@ createModel($content, 'Home', 'singleton', 'Home Page', [
     set_('aboutHighlights', 'About / Highlights', [
         txt('label', 'Label'),
         txt('image', 'Icon'),
-    ]),
+    ], '${data.label}'),
     // Mission & Vision
     set_('missionVision', 'Mission & Vision', [
         txt('title',        'Title'),
         txt('description',  'Description'),
         txt('image',        'Image'),
-    ]),
+    ], '${data.title}'),
     // Solutions
     txt('solutionsHeading', 'Solutions / Heading'),
     // Testimonials
@@ -123,13 +125,13 @@ createModel($content, 'Home', 'singleton', 'Home Page', [
         txt('role',   'Role'),
         txt('avatar', 'Avatar'),
         num('rating', 'Rating'),
-    ]),
+    ], '${data.name} — ${data.role}'),
     // FAQs
     txt('faqsHeading', 'FAQs / Heading'),
     set_('faqs', 'FAQs', [
         txt('question', 'Question'),
         txt('answer',   'Answer'),
-    ]),
+    ], '${data.question}'),
 ]);
 
 createModel($content, 'About', 'singleton', 'About Page', [
@@ -143,7 +145,7 @@ createModel($content, 'About', 'singleton', 'About Page', [
     set_('values', 'Company Values', [
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
     // Partners
     txt('partnersHeading', 'Partners / Heading'),
     set_('partners', 'Partners', [
@@ -157,7 +159,7 @@ createModel($content, 'About', 'singleton', 'About Page', [
         txt('role',  'Role'),
         txt('image', 'Photo'),
         txt('bio',   'Bio'),
-    ]),
+    ], '${data.name} — ${data.role}'),
     // CTA
     txt('ctaTitle',       'CTA / Title'),
     area('ctaDescription','CTA / Description'),
@@ -194,8 +196,8 @@ createModel($content, 'Career', 'singleton', 'Career Page', [
     // Open Positions
     txt('positionsTitle',       'Open Positions / Title'),
     area('positionsDescription','Open Positions / Description'),
-    set_('departments',     'Departments',      [txt('name', 'Name')]),
-    set_('employmentTypes', 'Employment Types', [txt('name', 'Name')]),
+    set_('departments',     'Departments',      [txt('name', 'Name')], '${data.name}'),
+    set_('employmentTypes', 'Employment Types', [txt('name', 'Name')], '${data.name}'),
     // Hiring Process
     txt('hiringTitle',       'Hiring Process / Title'),
     area('hiringDescription','Hiring Process / Description'),
@@ -203,7 +205,7 @@ createModel($content, 'Career', 'singleton', 'Career Page', [
         txt('title',       'Title'),
         txt('description', 'Description'),
         txt('image',       'Icon'),
-    ]),
+    ], '${data.title}'),
     // Life at TechAvenue
     txt('lifeEyebrow',      'Life / Eyebrow'),
     txt('lifeTitle',        'Life / Title'),
@@ -212,7 +214,7 @@ createModel($content, 'Career', 'singleton', 'Career Page', [
         txt('title',       'Title'),
         txt('description', 'Description'),
         txt('media',       'Image'),
-    ]),
+    ], '${data.title}'),
     // Follow Us
     txt('followUsTitle',       'Follow Us / Title'),
     area('followUsDescription','Follow Us / Description'),
@@ -220,7 +222,7 @@ createModel($content, 'Career', 'singleton', 'Career Page', [
         txt('label', 'Label'),
         txt('href',  'URL'),
         txt('image', 'Icon'),
-    ]),
+    ], '${data.label}'),
 ]);
 
 createModel($content, 'Services', 'singleton', 'Services Page', [
@@ -235,7 +237,7 @@ createModel($content, 'Services', 'singleton', 'Services Page', [
         txt('title',       'Title'),
         txt('description', 'Description'),
         txt('articleUuid', 'Article UUID'),
-    ]),
+    ], '${data.title}'),
     // Articles
     set_('articles', 'Articles', [
         txt('eyebrow',     'Eyebrow'),
@@ -244,7 +246,7 @@ createModel($content, 'Services', 'singleton', 'Services Page', [
         txt('image',       'Image'),
         txt('iconImage',   'Icon Image'),
         txt('features',    'Features (one per line)'),
-    ]),
+    ], '${data.title}'),
 ]);
 
 createModel($content, 'SuccessStoriesPage', 'singleton', 'Success Stories Page', [
@@ -277,7 +279,7 @@ createModel($content, 'Industries', 'collection', 'Industries', [
     set_('overviewHighlights', 'Overview Highlights', [
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
     // Challenges
     txt('challengesTitle',       'Challenges / Title'),
     area('challengesDescription','Challenges / Description'),
@@ -285,7 +287,7 @@ createModel($content, 'Industries', 'collection', 'Industries', [
         txt('icon',        'Icon'),
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
     // Solutions
     txt('solutionsTitle',       'Solutions / Title'),
     area('solutionsDescription','Solutions / Description'),
@@ -293,7 +295,7 @@ createModel($content, 'Industries', 'collection', 'Industries', [
         txt('icon',        'Icon'),
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
 ]);
 
 createModel($content, 'Jobs', 'collection', 'Jobs', [
@@ -312,7 +314,7 @@ createModel($content, 'LegacySolutions', 'collection', 'Legacy Solutions', [
     set_('highlights', 'Highlights', [
         txt('label',     'Label'),
         txt('checkIcon', 'Check Icon'),
-    ]),
+    ], '${data.label}'),
     // Header
     txt('headerTitle',       'Header / Title'),
     area('headerDescription','Header / Description'),
@@ -320,7 +322,7 @@ createModel($content, 'LegacySolutions', 'collection', 'Legacy Solutions', [
     set_('headerStats', 'Header Stats', [
         txt('value', 'Value'),
         txt('label', 'Label'),
-    ]),
+    ], '${data.value} — ${data.label}'),
     // Overview
     txt('overviewTitle',       'Overview / Title'),
     area('overviewDescription','Overview / Description'),
@@ -329,7 +331,7 @@ createModel($content, 'LegacySolutions', 'collection', 'Legacy Solutions', [
     set_('keyInfo', 'Key Info', [
         txt('key',   'Key'),
         txt('value', 'Value'),
-    ]),
+    ], '${data.key}: ${data.value}'),
     // Experience
     txt('experienceTitle',       'Experience / Title'),
     area('experienceDescription','Experience / Description'),
@@ -337,7 +339,7 @@ createModel($content, 'LegacySolutions', 'collection', 'Legacy Solutions', [
     set_('experienceItems', 'Experience Items', [
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
     // Testimonial
     area('testimonialQuote',  'Testimonial / Quote'),
     txt('testimonialName',    'Testimonial / Name'),
@@ -358,13 +360,13 @@ createModel($content, 'SolutionPages', 'collection', 'Solution Pages', [
     set_('solutionItems', 'Solution Items', [
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
     // Phases
     set_('phases', 'Phases', [
         txt('title',       'Title'),
         txt('focus',       'Focus'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
 ]);
 
 createModel($content, 'NewsItems', 'collection', 'News Items', [
@@ -398,7 +400,7 @@ createModel($content, 'SuccessStories', 'collection', 'Success Stories', [
         txt('icon',        'Icon'),
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
     // Solutions
     txt('solutionsTitle',       'Solutions / Title'),
     area('solutionsDescription','Solutions / Description'),
@@ -406,7 +408,7 @@ createModel($content, 'SuccessStories', 'collection', 'Success Stories', [
         txt('icon',        'Icon'),
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.title}'),
     // Impact
     txt('impactTitle',       'Impact / Title'),
     area('impactDescription','Impact / Description'),
@@ -414,7 +416,10 @@ createModel($content, 'SuccessStories', 'collection', 'Success Stories', [
         txt('value',       'Value'),
         txt('title',       'Title'),
         txt('description', 'Description'),
-    ]),
+    ], '${data.value} — ${data.title}'),
 ]);
 
 echo "\nDone.\n";
+
+
+
