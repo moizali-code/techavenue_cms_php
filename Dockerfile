@@ -20,6 +20,10 @@ RUN echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
+WORKDIR /var/www/html
+COPY . .
+RUN composer install --no-dev --optimize-autoloader --no-interaction 2>/dev/null || true
+
 # Give www-data UID=1000 and GID=1000 to be compatible with the docker host user on linux (often 1000:1000)
 RUN usermod --uid 1000 www-data && groupmod --gid 1000 www-data && chown -R www-data:www-data /var/www/html
 
