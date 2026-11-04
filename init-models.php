@@ -26,6 +26,7 @@ function bool_(string $name, string $label): array { return f($name, 'boolean', 
 function date_(string $name, string $label): array { return f($name, 'date',     $label); }
 function num(string $name, string $label): array   { return f($name, 'number',   $label); }
 function set_(string $name, string $label, array $fields, string $display = ''): array {
+    array_unshift($fields, txt('uuid', 'Item ID (keep stable)'));
     $opts = ['fields' => $fields];
     if ($display) $opts['display'] = $display;
     return ['name' => $name, 'type' => 'set', 'label' => $label, 'multiple' => true, 'opts' => $opts];
@@ -34,6 +35,8 @@ function set_(string $name, string $label, array $fields, string $display = ''):
 // Write the model PHP file directly to avoid Cockpit's pathCache bug
 // (removeModel + saveModel fails because the cache still has the old path)
 function createModel(object $content, string $name, string $type, string $label, array $fields): void {
+    if ($type === 'collection') array_unshift($fields, txt('uuid', 'URL ID (keep stable after publishing)'));
+    if ($name === 'SuccessStories') { $fields[] = txt('industryUuid', 'Industry URL ID'); $fields[] = txt('solutionUuid', 'Solution URL ID'); }
     $storagePath = __DIR__ . '/storage/content';
     if (!is_dir($storagePath)) mkdir($storagePath, 0775, true);
 
@@ -246,6 +249,7 @@ createModel($content, 'Services', 'singleton', 'Services Page', [
         txt('image',       'Image'),
         txt('iconImage',   'Icon Image'),
         txt('features',    'Features (one per line)'),
+        txt('featureIcons', 'Feature icon paths (one per line, same order)'),
     ], '${data.title}'),
 ]);
 
@@ -305,6 +309,8 @@ createModel($content, 'Jobs', 'collection', 'Jobs', [
     txt('employmentType', 'Employment Type'),
     txt('experience',     'Experience'),
     txt('workplace',      'Workplace'),
+    area('description',   'Job Description'),
+    txt('applicationUrl', 'Application URL (leave empty to use contact email)'),
 ]);
 
 createModel($content, 'LegacySolutions', 'collection', 'Legacy Solutions', [
@@ -417,6 +423,114 @@ createModel($content, 'SuccessStories', 'collection', 'Success Stories', [
         txt('title',       'Title'),
         txt('description', 'Description'),
     ], '${data.value} — ${data.title}'),
+]);
+
+
+createModel($content, 'SiteSettings', 'singleton', 'Website Settings', [
+    txt('siteName', 'Site Name'),
+    area('siteTitle', 'Site Title'),
+    area('siteDescription', 'Site Description'),
+    img('logo', 'Logo'),
+    txt('logoAlt', 'Logo Alt'),
+    txt('homeLabel', 'Home Label'),
+    txt('contactLabel', 'Contact Label'),
+    txt('contactHref', 'Contact Href'),
+    set_('navigation', 'Navigation', [txt('label', 'Label'), txt('href', 'Href'), txt('group', 'Group')]),
+    set_('companyLinks', 'Company Links', [txt('title', 'Title'), txt('description', 'Description'), txt('href', 'Href'), txt('image', 'Image')]),
+    area('footerDescription', 'Footer Description'),
+    txt('quickLinksHeading', 'Quick Links Heading'),
+    set_('quickLinks', 'Quick Links', [txt('label', 'Label'), txt('href', 'Href')]),
+    set_('socialLinks', 'Social Links', [txt('label', 'Label'), txt('href', 'Href'), txt('image', 'Image')]),
+    txt('footerNewsletterHeading', 'Footer Newsletter Heading'),
+    area('footerNewsletterDescription', 'Footer Newsletter Description'),
+    txt('emailPlaceholder', 'Email Placeholder'),
+    txt('subscribeLabel', 'Subscribe Label'),
+    txt('copyright', 'Copyright'),
+    area('ctaTitle', 'Cta Title'),
+    area('ctaDescription', 'Cta Description'),
+    txt('newsEyebrow', 'News Eyebrow'),
+    txt('newsHeading', 'News Heading'),
+    txt('latestStoriesHeading', 'Latest Stories Heading'),
+    txt('readStoryLabel', 'Read Story Label'),
+    txt('eventsHeading', 'Events Heading'),
+    txt('newsletterHeading', 'Newsletter Heading'),
+    area('newsletterDescription', 'Newsletter Description'),
+    txt('newsletterEmailPlaceholder', 'Newsletter Email Placeholder'),
+    txt('newsletterButtonLabel', 'Newsletter Button Label'),
+    area('industryStoriesTitle', 'Industry Stories Title'),
+    area('industryStoriesDescription', 'Industry Stories Description'),
+    area('solutionStoriesTitle', 'Solution Stories Title'),
+    area('solutionStoriesDescription', 'Solution Stories Description'),
+    txt('storiesActionLabel', 'Stories Action Label'),
+    txt('storiesActionHref', 'Stories Action Href'),
+    txt('requestDemoLabel', 'Request Demo Label'),
+    txt('watchDemoLabel', 'Watch Demo Label'),
+    txt('demoEyebrow', 'Demo Eyebrow'),
+    area('demoTitle', 'Demo Title'),
+    area('demoDescription', 'Demo Description'),
+    set_('organizationSizes', 'Organization Sizes', [txt('name', 'Name')]),
+    txt('teamMemberModalAbout', 'Team Member Modal About'),
+    txt('teamMemberModalClose', 'Team Member Modal Close'),
+    txt('careerHeaderExplorePositions', 'Career Header Explore Positions'),
+    txt('careerHeaderLearnAboutUs', 'Career Header Learn About Us'),
+    txt('openPositionsApplyNow', 'Open Positions Apply Now'),
+    txt('openPositionsNoPositionsAvaliable', 'Open Positions No Positions Avaliable'),
+    txt('contactDetailsHeadOffice', 'Contact Details Head Office'),
+    txt('contactDetailsPhone', 'Contact Details Phone'),
+    txt('contactDetailsEmail', 'Contact Details Email'),
+    txt('contactDetailsWebsite', 'Contact Details Website'),
+    txt('contactDetailsBusinessHours', 'Contact Details Business Hours'),
+    txt('contactDetailsGetDirections', 'Contact Details Get Directions'),
+    txt('contactFormFullName', 'Contact Form Full Name'),
+    txt('contactFormJohnDoe', 'Contact Form John Doe'),
+    txt('contactFormCompanyName', 'Contact Form Company Name'),
+    txt('contactFormAcmeCorp', 'Contact Form Acme Corp'),
+    txt('contactFormEmailAddress', 'Contact Form Email Address'),
+    txt('contactFormJohnCompanyCom', 'Contact Form John Company Com'),
+    txt('contactFormContactNumber', 'Contact Form Contact Number'),
+    txt('contactForm923000000000', 'Contact Form923000000000'),
+    txt('contactFormOrganization', 'Contact Form Organization'),
+    txt('contactFormOrganizationType', 'Contact Form Organization Type'),
+    txt('contactFormIndustry', 'Contact Form Industry'),
+    txt('contactFormSelectIndustry', 'Contact Form Select Industry'),
+    txt('contactFormVerticleOfInterest', 'Contact Form Verticle Of Interest'),
+    txt('contactFormSelectAVerticle', 'Contact Form Select A Verticle'),
+    txt('contactFormSubject', 'Contact Form Subject'),
+    txt('contactFormBriefSubjectOfInquiry', 'Contact Form Brief Subject Of Inquiry'),
+    txt('contactFormMessage', 'Contact Form Message'),
+    txt('contactFormHowCanWeHelpYou', 'Contact Form How Can We Help You'),
+    area('contactFormIAgreeToBeContactedByTech', 'Contact Form I Agree To Be Contacted By Tech'),
+    txt('contactFormViewSuccessStories', 'Contact Form View Success Stories'),
+    txt('contactFormSendMessage', 'Contact Form Send Message'),
+    txt('homeAboutLearnMore', 'Home About Learn More'),
+    txt('homeSolutionsViewSolution', 'Home Solutions View Solution'),
+    txt('requestDemoModalFullName', 'Request Demo Modal Full Name'),
+    txt('requestDemoModalJohnDoe', 'Request Demo Modal John Doe'),
+    txt('requestDemoModalContactNumber', 'Request Demo Modal Contact Number'),
+    txt('requestDemoModal15550000000', 'Request Demo Modal15550000000'),
+    txt('requestDemoModalEmailAddress', 'Request Demo Modal Email Address'),
+    txt('requestDemoModalJohnCompanyCom', 'Request Demo Modal John Company Com'),
+    txt('requestDemoModalSolutionForDemo', 'Request Demo Modal Solution For Demo'),
+    txt('requestDemoModalSelectASolution', 'Request Demo Modal Select A Solution'),
+    txt('requestDemoModalCompanyName', 'Request Demo Modal Company Name'),
+    txt('requestDemoModalEnterpriseCorp', 'Request Demo Modal Enterprise Corp'),
+    area('requestDemoModalCurrentJobTitle', 'Request Demo Modal Current Job Title'),
+    txt('requestDemoModalDirectorOfIT', 'Request Demo Modal Director Of I T'),
+    txt('requestDemoModalOrganizationSize', 'Request Demo Modal Organization Size'),
+    txt('requestDemoModalSelectSize', 'Request Demo Modal Select Size'),
+    txt('requestDemoModalAskAQuestion', 'Request Demo Modal Ask A Question'),
+    txt('requestDemoModalTellUsMoreAboutYourSpecificNeeds', 'Request Demo Modal Tell Us More About Your Specific Needs'),
+    area('requestDemoModalIAgreeToBeContactedByTech', 'Request Demo Modal I Agree To Be Contacted By Tech'),
+    txt('requestDemoModalCancel', 'Request Demo Modal Cancel'),
+    txt('requestDemoModalRequestDemo', 'Request Demo Modal Request Demo'),
+    txt('successStoriesGridSolutions', 'Success Stories Grid Solutions'),
+    txt('successStoriesGridIndustry', 'Success Stories Grid Industry'),
+    txt('successStoriesGridNoSuccessStoriesMatchTheSelectedFilters', 'Success Stories Grid No Success Stories Match The Selected Filters'),
+    txt('successStoriesHeaderSuccessStories', 'Success Stories Header Success Stories'),
+    txt('aboutContactLabel', 'About / Contact button'),
+    txt('aboutStoriesLabel', 'About / Success stories button'),
+    txt('servicesEyebrow', 'Services / Header eyebrow'),
+    txt('allFilterLabel', 'Filters / All label'),
 ]);
 
 echo "\nDone.\n";
