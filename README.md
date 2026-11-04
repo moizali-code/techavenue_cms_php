@@ -1,92 +1,248 @@
-# techavenue-cms-php
+# Cockpit CMS - Headless Content Management
 
+![cockpit banner](https://github.com/user-attachments/assets/c8d4daf1-86cc-45c9-be24-5c6a6a2ca8ca)
 
+> **Modern, flexible CMS that adapts to your workflow**
 
-## Getting started
+Cockpit is a headless CMS that gives you the flexibility to build content-driven applications your way. Whether you're creating websites, mobile apps, or IoT applications, Cockpit provides the content infrastructure you need.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## ✨ Why Developers Choose Cockpit
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- **🚀 Headless by Design** - Use any frontend technology (React, Vue, Flutter, etc.)
+- **📊 Flexible Content Models** - Collections, Singletons, and Trees with custom fields
+- **🔗 GraphQL & REST APIs** - Modern APIs with real-time capabilities  
+- **🌍 Multi-language Support** - Built-in internationalization for global applications
+- **🎨 No Vendor Lock-in** - Own your data, deploy anywhere
+- **⚡ Performance First** - MongoDB or SQLite backend, your choice
 
-## Add your files
+## 🚀 Quick Start
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+Get Cockpit running in under 5 minutes:
 
+### Option 1: Traditional Setup
+
+```bash
+# Download and extract
+wget https://github.com/cockpit-hq/cockpit/releases/latest/download/cockpit.zip
+unzip cockpit.zip && cd cockpit
+
+# Make storage writable  
+chmod -R 755 storage/
+
+# Open in browser and complete setup
+open http://localhost/cockpit/install
 ```
-cd existing_repo
-git remote add origin http://gitlab.techavenue.biz/techavenuewebsite/techavenue-cms-php.git
-git branch -M main
-git push -uf origin main
+
+### Option 2: Docker (Recommended)
+
+```bash
+# Run Cockpit with persistent storage
+docker run -d \
+  --name cockpit \
+  -p 8080:80 \
+  -v cockpit_storage:/var/www/html/storage \
+  cockpithq/cockpit:core-latest
+
+# Access at http://localhost:8080/install
 ```
 
-## Integrate with your tools
+### Start Building
 
-- [ ] [Set up project integrations](http://gitlab.techavenue.biz/techavenuewebsite/techavenue-cms-php/-/settings/integrations)
+Once installed, create content models through the admin UI or via API:
 
-## Collaborate with your team
+```javascript
+// Fetch your content anywhere
+fetch('/api/content/items/blog')
+  .then(res => res.json())
+  .then(posts => {
+    // Use in React, Vue, mobile apps, etc.
+    console.log('My content:', posts);
+  });
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+## 🛠️ Key Features
 
-## Test and Deploy
+| Feature | Description | 
+|---------|-------------|
+| **Content Modeling** | Collections, Singletons, Trees with 20+ field types |
+| **Asset Management** | Image processing, video thumbnails, CDN integration |
+| **User Management** | Roles, permissions, 2FA, API tokens |
+| **Multi-language** | Localized content with fallback support |
+| **Developer Tools** | GraphQL playground, REST docs, CLI commands |
+| **Extensibility** | Custom fields, addons, hooks, events |
+| **Multi-tenancy** | Spaces for multiple sites and clients |
 
-Use the built-in continuous integration in GitLab.
+## 📋 System Requirements
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+- **PHP** >= 8.3 with PDO, GD extensions
+- **Database** SQLite (default) or MongoDB
+- **Web Server** Apache with mod_rewrite or Nginx
+- **Permissions** Writable `/storage` directory
 
-***
+Ensure `$_SERVER['DOCUMENT_ROOT']` is properly configured.
 
-# Editing this README
+## 🌐 API Examples
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### REST API
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+```bash
+# Get all published blog posts
+curl "https://yoursite.com/api/content/items/blog?filter={tags:'cms'}"
 
-## Name
-Choose a self-explaining name for your project.
+# Get single post by ID
+curl "https://yoursite.com/api/content/item/blog/60f1b2b3c4d5e6f7a8b9c0d1"
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+# Create new post
+curl -X POST "https://yoursite.com/api/content/item/blog" \
+  -H "Cockpit-Token: your-token" \
+  -H "Content-Type: application/json" \
+  -d '{"title":"New Post","content":"Content here","tags":["cms"]}'
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### GraphQL
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+```graphql
+# Query blog posts with pagination
+query GetBlogPosts($limit: Int, $skip: Int) {
+  blog(limit: $limit, skip: $skip, filter: {tags: "cms"}) {
+    _id
+    title
+    content
+    _created
+    _modified
+  }
+}
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+# Create new blog post  
+mutation CreatePost($data: JSON!) {
+  saveContentItem(model: "blog", data: $data) {
+    _id
+    title
+  }
+}
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## 🔗 Resources
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+- **[Documentation](https://getcockpit.com/documentation)** - Complete guides and API reference
+- **[GitHub](https://github.com/cockpit-hq/cockpit)** - Source code and issues
+- **[Community Forum](https://discourse.getcockpit.com)** - Get help and share knowledge
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## 📱 Use Cases
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+- **Headless Websites** - Static sites with JAMstack
+- **Mobile Apps** - iOS/Android with native or hybrid frameworks  
+- **E-commerce** - Product catalogs and content management
+- **Corporate Sites** - Multi-language corporate websites
+- **IoT Dashboards** - Content for smart devices and displays
+- **Multi-tenant SaaS** - Content infrastructure for platforms
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## 🐳 Docker
 
-## License
-For open source projects, say how it is licensed.
+Run Cockpit in containers for consistent, scalable deployments across any environment.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### Quick Start with Docker
+
+```bash
+# Run with SQLite (development)
+docker run -d \
+  --name cockpit \
+  -p 8080:80 \
+  -v cockpit_storage:/var/www/html/storage \
+  cockpithq/cockpit:core-latest
+
+# Access at http://localhost:8080/install
+```
+
+### Production Setup with MongoDB
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  cockpit:
+    image: cockpithq/cockpit:core-latest
+    ports:
+      - "80:80"
+    environment:
+      - COCKPIT_DATABASE_SERVER=mongodb://mongo:27017
+      - COCKPIT_DATABASE_NAME=cockpit
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./config:/var/www/html/config
+    depends_on:
+      - mongo
+      
+  mongo:
+    image: mongo:8
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=cockpit
+
+volumes:
+  mongo_data:
+```
+
+### Configuration
+
+Create a `config/config.php` file and mount it to connect to MongoDB:
+
+```php
+<?php
+// config/config.php
+return [
+    'database' => [
+        'server' => $_ENV['COCKPIT_DATABASE_SERVER'] ?? 'mongodb://mongo:27017',
+        'database' => $_ENV['COCKPIT_DATABASE_NAME'] ?? 'cockpit'
+    ],
+    'sec-key' => $_ENV['COCKPIT_SEC_KEY'] ?? 'your-random-security-key'
+];
+```
+
+**Mount config via Docker Compose:**
+```yaml
+volumes:
+  - ./config:/var/www/html/config
+```
+
+**Or create custom Docker image:**
+```dockerfile
+FROM cockpithq/cockpit:core-latest
+COPY ./config/config.php /var/www/html/config/config.php
+```
+
+### Available Tags
+
+- `core-latest` - Latest stable release
+- `core-{version}` - Specific version tags
+- `pro-latest` - Latest pro stable release
+- `pro-{version}` - Specific pro version tags
+
+Visit [Docker Hub](https://hub.docker.com/r/cockpithq/cockpit/tags) for all available tags.
+
+## 💐 Partners
+
+[![BrowserStack](https://user-images.githubusercontent.com/355427/27389060-9f716c82-569d-11e7-923c-bd5fe7f1c55a.png)](https://www.browserstack.com)<br>
+Live, Web-Based Browser Testing
+
+
+## 💐 Sponsors
+
+[![Backers on Open Collective](https://opencollective.com/cockpit/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/cockpit/sponsors/badge.svg)](#sponsors)
+
+Become a backer or sponsor through:
+
+- [Patreon](https://www.patreon.com/aheinze)
+- [OpenCollective](https://opencollective.com/cockpit#backer)
+
+Thank you to all our backers! 🙏
+
+
+## Copyright and license
+
+Copyright since 2015 [🅰🅶🅴🅽🆃🅴🅹🅾](https://agentejo.com) under the MIT license.
+
+See [LICENSE](LICENSE) for more information.
