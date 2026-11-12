@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: techavenue-cms
+    runtime: docker
+    plan: free
+    branch: render
+    dockerCommand: sh /var/www/html/.render/start.sh
+    envVars:
+      - key: PORT
+        value: "80"
+      - key: COCKPIT_API_KEY
+        generateValue: true
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASSWORD
+        generateValue: true
